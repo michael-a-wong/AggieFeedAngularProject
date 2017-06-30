@@ -3,28 +3,58 @@
   <head>
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/> 
   </head>
-  <body ng-app="MyApp" layout="column">
+  <body layout="column" ng-app="myApp" ng-controller="myCtrl">
   
   <md-toolbar> 
     <h1>Angular Material Starter</h1> 
   </md-toolbar> 
   
   <div class="container" layout="row" flex>
-    <md-sidenav md-is-locked-open="true" class="lightblue">Sidenav</md-sidenav>
-    <md-content id="content" class="lightgreen" flex>Content</md-content>
+    <md-sidenav md-is-locked-open="true" class="lightblue">Sidenav
+      <div>
+        <button ng-click="apiCall()" >OK</button>
+        <p>The button has been clicked {{count}} times.</p>
+      </div>
+    </md-sidenav>
+    <md-content id="content" class="lightgreen" flex>
+      Content
+      <table>
+        <tr ng-repeat="x in list">
+          <td>{{ x.dt_txt }}</td>
+          <td>{{ x.main.tempy }}</td>
+        </tr>
+      </table>
+    </md-content>
   </div>
 
-  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <!--<script src="bower_components/angular/angular.min.js"></script>-->
   <script src="bower_components/angular-animate/angular-animate.js"></script> 
   <script src="bower_components/angular-aria/angular-aria.min.js"></script> 
   <script src="bower_components/angular-material/angular-material.min.js"></script>
+  <script>
+    var app = angular.module('myApp', []);  
+    app.controller('myCtrl', function($scope, $http) {
+      $scope.count = 0;
+      $scope.apiCall = function() {
+        $scope.count++;
+        console.log('MyApp is real'); 
+        $http({
+          method: 'GET',
+          url: 'http://api.openweathermap.org/data/2.5/forecast?zip=94552&APPID=6c22e3e9d58f36b919237acd80ba106d'
+        }).then(function successCallback(response) {
+            $scope.list = response.data.list;
+            console.log(response); 
+          }, function errorCallback(response) {
+          });
+      } 
+    });
 
-  <script> 
-    angular.module('MyApp',['ngMaterial'])
-      .run(function(){
-        console.log('MyApp is real')
-      });
-  </script> 
+    function seccuessCallback(response) {
+      console.log(response); 
+    }
+  </script>
+
   <style> 
     .red{background-color:red;}
     .lightblue{background-color:lightblue;}
