@@ -6,7 +6,7 @@
   <body layout="column" ng-app="myApp" ng-controller="myCtrl">
   
   <md-toolbar> 
-    <h1>Angular Material Starter</h1> 
+    <h1>My Aggie Feed Project</h1> 
   </md-toolbar> 
   
   <div class="container" layout="row" flex>
@@ -21,7 +21,7 @@
       <table>
         <tr ng-repeat="x in list">
           <td>{{ x.dt_txt }}</td>
-          <td>{{ x.main.tempy }}</td>
+          <td>{{ x.main.temp }}</td>
         </tr>
       </table>
     </md-content>
@@ -33,18 +33,84 @@
   <script src="bower_components/angular-aria/angular-aria.min.js"></script> 
   <script src="bower_components/angular-material/angular-material.min.js"></script>
   <script>
-    var app = angular.module('myApp', []);  
+    var app = angular.module('myApp', ["ngMaterial"]);  
     app.controller('myCtrl', function($scope, $http) {
       $scope.count = 0;
+      $scope.list = []; 
       $scope.apiCall = function() {
         $scope.count++;
         console.log('MyApp is real'); 
         $http({
           method: 'GET',
-          url: 'http://api.openweathermap.org/data/2.5/forecast?zip=94552&APPID=6c22e3e9d58f36b919237acd80ba106d'
+          url: 'http://api.openweathermap.org/data/2.5/weather?q=London&APPID=6c22e3e9d58f36b919237acd80ba106d'
         }).then(function successCallback(response) {
-            $scope.list = response.data.list;
-            console.log(response); 
+            
+            $scope.list.push(response.data);
+            //console.log(response);
+
+            var jsonResult = {
+              "activity" : {
+                  "icon": "icon-info-sign",
+                  "actor": {
+                      "id" : "sourceId",
+                      "objectType": "person",
+                      "displayName": "Department Name",
+                      "author" : {
+                          "id" : "kName",
+                          "displayName" : "FirstName LastName"
+                      },
+                      "image" : {
+                          "color" : "#f1c40f"
+                      }
+                  },
+                  "verb": "post",
+                  "title": response.data.name + "\'s Weather",
+                  "object": {
+                      "ucdSrcId" : "content identifier",
+                      "objectType": "notification",
+                      "content": response,
+                      "ucdEdusModel" : {
+                          "url" : "http://http://api.openweathermap.org/data/2.5/weather?q=",
+                          "urlDisplayName" : "Open Weather Map",
+                          "event" : {
+                              "location": "Event Location",
+                              "hasStartTime" : true,
+                              "startDate": "date string",
+                              "endDate": "date string",
+                              "isAllDay": false,
+                              "iCalendar" : "iCal string",
+                              "addToGoogleCalendar": "string"
+                          }
+                      },
+                      "location" : {
+                          "displayName": response.data.name,
+                          "geo" : {
+                              "latitude": response.data.coord.lon,
+                              "longitude": response.data.coord.lat
+                          },
+                          "geometry" : {
+                              "type": "Point",
+                              "coordinates": [response.data.coord.lon, response.data.coord.lat]
+                          }
+                      }
+                  },
+                  "to" : [
+                      {
+                          "id": "<kName>",
+                          "g": false,
+                          "i": false
+                      }
+                  ],
+                  "ucdEdusMeta" : {
+                      "labels" : ["~academic", "some-label"],
+                      "startDate" : "date string",
+                      "endDate" : "date string"
+                  }
+              }
+          }; 
+
+          console.log(jsonResult);
+ 
           }, function errorCallback(response) {
           });
       } 
