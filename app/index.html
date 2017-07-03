@@ -11,6 +11,10 @@
   
   <div class="container" layout="row" flex>
     <md-sidenav md-is-locked-open="true" class="lightblue">Sidenav
+    <form>
+    Enter the City Name <input type="text" ng-model="cityName">
+  </form>
+  <h1>You entered: {{cityName}}</h1>
       <div>
         <button ng-click="apiCall()" >OK</button>
         <p>The button has been clicked {{count}} times.</p>
@@ -20,10 +24,24 @@
       Content
       <table>
         <tr ng-repeat="x in list">
-          <td>{{ x.dt_txt }}</td>
+          <td>{{ x.name }}</td>
           <td>{{ x.main.temp }}</td>
+          <td>{{ x.weather[0].description}}
         </tr>
       </table>
+
+      <md-list>
+               <md-subheader class="md-no-sticky">Weather</md-subheader>
+               <md-list-item class="md-2-line contact-item" ng-repeat="x in list" >
+                  <div class="md-list-item-text compact">
+                     <h3>{{x.name}}</h3>
+                     <p>{{x.main.temp}}</p>
+                     <p> {{ x.weather[0].description }} </p>
+                  </div>
+          <md-divider ng-if="!$last"></md-divider>
+               </md-list-item>
+            </md-list>
+
     </md-content>
   </div>
 
@@ -32,94 +50,7 @@
   <script src="bower_components/angular-animate/angular-animate.js"></script> 
   <script src="bower_components/angular-aria/angular-aria.min.js"></script> 
   <script src="bower_components/angular-material/angular-material.min.js"></script>
-  <script>
-    var app = angular.module('myApp', ["ngMaterial"]);  
-    app.controller('myCtrl', function($scope, $http) {
-      $scope.count = 0;
-      $scope.list = []; 
-      $scope.apiCall = function() {
-        $scope.count++;
-        console.log('MyApp is real'); 
-        $http({
-          method: 'GET',
-          url: 'http://api.openweathermap.org/data/2.5/weather?q=London&APPID=6c22e3e9d58f36b919237acd80ba106d'
-        }).then(function successCallback(response) {
-            
-            $scope.list.push(response.data);
-            //console.log(response);
-
-            var jsonResult = {
-              "activity" : {
-                  "icon": "icon-info-sign",
-                  "actor": {
-                      "id" : "sourceId",
-                      "objectType": "person",
-                      "displayName": "Department Name",
-                      "author" : {
-                          "id" : "kName",
-                          "displayName" : "FirstName LastName"
-                      },
-                      "image" : {
-                          "color" : "#f1c40f"
-                      }
-                  },
-                  "verb": "post",
-                  "title": response.data.name + "\'s Weather",
-                  "object": {
-                      "ucdSrcId" : "content identifier",
-                      "objectType": "notification",
-                      "content": response,
-                      "ucdEdusModel" : {
-                          "url" : "http://http://api.openweathermap.org/data/2.5/weather?q=",
-                          "urlDisplayName" : "Open Weather Map",
-                          "event" : {
-                              "location": "Event Location",
-                              "hasStartTime" : true,
-                              "startDate": "date string",
-                              "endDate": "date string",
-                              "isAllDay": false,
-                              "iCalendar" : "iCal string",
-                              "addToGoogleCalendar": "string"
-                          }
-                      },
-                      "location" : {
-                          "displayName": response.data.name,
-                          "geo" : {
-                              "latitude": response.data.coord.lon,
-                              "longitude": response.data.coord.lat
-                          },
-                          "geometry" : {
-                              "type": "Point",
-                              "coordinates": [response.data.coord.lon, response.data.coord.lat]
-                          }
-                      }
-                  },
-                  "to" : [
-                      {
-                          "id": "<kName>",
-                          "g": false,
-                          "i": false
-                      }
-                  ],
-                  "ucdEdusMeta" : {
-                      "labels" : ["~academic", "some-label"],
-                      "startDate" : "date string",
-                      "endDate" : "date string"
-                  }
-              }
-          }; 
-
-          console.log(jsonResult);
- 
-          }, function errorCallback(response) {
-          });
-      } 
-    });
-
-    function seccuessCallback(response) {
-      console.log(response); 
-    }
-  </script>
+  <script src="script.js"> </script>
 
   <style> 
     .red{background-color:red;}
