@@ -14,10 +14,10 @@ I based the environment off of the AngularJS tutorial.
 My code is located under /AggieFeedAngularProject/app
 
 The files that I wrote are: 
--index.html
--feed.html
--citySearch.html
--script.js
+  - index.html
+  - feed.html
+  - citySearch.html
+  - script.js
 
 ## How to run
 
