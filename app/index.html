@@ -10,7 +10,7 @@
   </md-toolbar> 
   
   <div class="container" layout="row" flex>
-    <md-sidenav md-is-locked-open="true" class="lightblue">Sidenav
+    <md-sidenav md-is-locked-open="true" class="lightblue">
     <form>
     Enter the City Name <input type="text" ng-model="cityName">
   </form>
@@ -20,22 +20,13 @@
         <p>The button has been clicked {{count}} times.</p>
       </div>
     </md-sidenav>
-    <md-content id="content" class="lightgreen" flex>
-      Content
-      <table>
-        <tr ng-repeat="x in list">
-          <td>{{ x.activity.title }}</td>
-          <td>{{ x.activity.object.content.data.main.temp }}</td>
-          <td>{{ x.activity.object.content.data.weather[0].description }}
-        </tr>
-      </table>
-
+    <md-content id="content" class="lightgreen" flex style="text-align:center">
       <md-list>
-               <md-subheader class="md-no-sticky">Weather</md-subheader>
-               <md-list-item class="md-2-line contact-item" ng-repeat="x in list" >
+               <md-subheader class="md-no-sticky"><h1>Weather</h1></md-subheader>
+               <md-list-item class="md-2-line contact-item" ng-repeat="x in list | reverse" >
                   <div class="md-list-item-text compact">
                      <h3>{{x.activity.title}}</h3>
-                     <p>{{x.activity.object.content.data.main.temp}}</p>
+                     <p>{{ temperature(x.activity.object.content.data.main.temp) }}</p>
                      <p> {{ x.activity.object.content.data.weather[0].description }} </p>
                   </div>
           <md-divider ng-if="!$last"></md-divider>

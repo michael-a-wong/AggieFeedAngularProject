@@ -102,6 +102,10 @@ app.controller('myCtrl', function($scope, $http, WeatherApi ) {
   $scope.count = 0;
   $scope.list = []; 
 
+  $scope.temperature = function(num) {
+    return parseFloat(num  * (9.0 / 5.0) - 459.67 ).toFixed(2); 
+  }
+
   $scope.apiCall = function () { 
     $scope.count++;
 
@@ -118,7 +122,13 @@ app.controller('myCtrl', function($scope, $http, WeatherApi ) {
     //console.log("This is the List"); 
     //console.log($scope.list[0]); 
   }
-})
+});
+
+app.filter('reverse', function() {
+  return function(items) {
+    return items.slice().reverse();
+  };
+});
 
 
 
