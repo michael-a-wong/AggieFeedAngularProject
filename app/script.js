@@ -122,6 +122,20 @@ app.controller('myCtrl', function($scope, $http, WeatherApi ) {
     //console.log("This is the List"); 
     //console.log($scope.list[0]); 
   }
+})
+.directive('myFeed', function() {
+  return {
+    templateUrl: function(elem, attr) {
+      return 'feed.html';
+    }
+  };
+})
+.directive('myCitySearch', function() {
+  return {
+    templateUrl: function(elem, attr) {
+      return 'citySearch.html';
+    }
+  };
 });
 
 app.filter('reverse', function() {
